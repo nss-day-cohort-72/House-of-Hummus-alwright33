@@ -1,9 +1,21 @@
-import { getEntrees, setEntree } from "./database.js"
+export const entreeOptions = async () => {
+    const response = await fetch("http://localhost:8088/entrees")
+    const entrees = await response.json()
 
-const entrees = getEntrees()
+    let entreesHTML = `
+        <div id='entreeOptions'>
+            ${entrees.map(entree =>
+                `<label>
+                    <div>
+                        <input type='radio' name='entree' value='${entree.id}'/>
+                        ${entree.name}
+                    <div/>
+                </label>`
+            ).join("")}
+        </div>`
 
-document.addEventListener("change", (event) => {
+    return entreesHTML
+}
+   
 
-})
 
-// Requirement: The radio input elements that this component funcion renders must all have a name of "entree"
