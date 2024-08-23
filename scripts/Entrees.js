@@ -1,6 +1,10 @@
+import { setEntree } from "./TransientState.js"
+
 export const entreeOptions = async () => {
     const response = await fetch("http://localhost:8088/entrees")
     const entrees = await response.json()
+
+    document.addEventListener("change", handleEntreeChoice)
 
     let entreesHTML = `
         <div id='entreeOptions'>
@@ -15,6 +19,12 @@ export const entreeOptions = async () => {
         </div>`
 
     return entreesHTML
+}
+
+const handleEntreeChoice = (changeEvent) => {
+    if (changeEvent.target.name === "entree") {
+        setEntree(parseInt(changeEvent.target.value))
+    }
 }
    
 
