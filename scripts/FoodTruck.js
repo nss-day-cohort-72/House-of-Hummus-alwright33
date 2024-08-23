@@ -1,10 +1,14 @@
 import { entreeOptions } from "./Entrees.js"
+import { purchaseCombo } from "./PurchaseCombo.js"
+import { sales } from "./Sales.js"
 import { sideDishOptions } from "./SideDishes.js"
 import { vegetableOptions } from "./Vegetables.js"
 
 const entreeHTML = await entreeOptions()
 const veggieHTML = await vegetableOptions()
 const sideHTML = await sideDishOptions()
+const button = await purchaseCombo()
+const salesListHTML = await sales()
 
 export const FoodTruck = () => {
     return `
@@ -31,12 +35,12 @@ export const FoodTruck = () => {
         </article>
 
         <article>
-            <button id="purchase">Purchase Combo</button>
+            ${button}
         </article>
 
         <article class="customerOrders">
             <h2>Monthly Sales</h2>
-
+            ${salesListHTML}
         </article>
 
     `
