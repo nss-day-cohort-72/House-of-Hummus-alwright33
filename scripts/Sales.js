@@ -1,30 +1,18 @@
- /*import { getVeggies } from "./database.js"
+export const sales = async () => {
+    const response = await fetch("http://localhost:8088/orders?_expand=entree&_expand=vegetable&_expand=side")
+    const salesList = await response.json()
 
-const buildOrderListItem = (order) => {
-    const veggies = getVeggies()
-
-
-    const total = veggiePrice + entreePrice + sidePrice
-
-    return `<li>
-        Receipt #${order} = ${total.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD"
-        })}
-    </li>`
+    const salesHTML = salesList.map(
+        sale => {
+            const salePrice = sale.entree.price + sale.vegetable.price + sale.side.price
+            const formattedPrice = salePrice.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD"
+            })
+            return `<section class='sale'>
+                        <div>Receipt #${sale.id} = ${formattedPrice}</div></section>`            
+        }
+    ).join("")
+    
+    return salesHTML
 }
-
-export const Sales = () => {
-    const sales = getPurchases()
-    return `
-        <ul>
-            ${sales.map(
-                (sale) => {
-                    // Reflect: What is the scope of this `return` keyword?
-                    return buildOrderListItem(sale)
-                }
-            ).join("")}
-        </ul>
-    `
-}
-
